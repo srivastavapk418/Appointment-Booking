@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const BASE_URL = RAW_URL.replace(/\/+$/, '');
 
 async function request(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, {
@@ -9,8 +10,14 @@ async function request(path, options = {}) {
   // 204 No Content — no body to parse
   if (res.status === 204) return null;
 
-  const data = await res.json();
-  if (!res.ok) throw data; // throw the error object so callers can inspect it
+  let data;
+  try {
+    data = await res.json();
+  } catch {
+    data = { error: `Server returned status ${res.status}` };
+  }
+
+  if (!res.ok) throw data;
   return data;
 }
 

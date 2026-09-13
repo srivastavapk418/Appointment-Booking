@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import StatusBadge from './StatusBadge';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -38,12 +39,17 @@ export default function AppointmentTable({
 
   return (
     <div className="card">
-      <h2 className="card-title">
-        📊 Appointments
-        {appointments.length > 0 && (
-          <span className="count-badge">{appointments.length}</span>
-        )}
-      </h2>
+      <div className="card-header">
+        <div className="card-header-title-row">
+          <h2 className="card-title">
+            Scheduled Appointments
+            {appointments.length > 0 && (
+              <span className="count-badge">{appointments.length}</span>
+            )}
+          </h2>
+        </div>
+        <p className="card-subtitle">List of all scheduled visits and patient status</p>
+      </div>
 
       {appointments.length === 0 ? (
         <div className="empty-state">
@@ -55,88 +61,101 @@ export default function AppointmentTable({
           <table>
             <thead>
               <tr>
-                <th>#</th>
-                <th>Patient</th>
-                <th>Mobile</th>
-                <th>Doctor</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th className="col-num">#</th>
+                <th className="col-patient">Patient</th>
+                <th className="col-mobile">Mobile</th>
+                <th className="col-doctor">Doctor</th>
+                <th className="col-date">Date</th>
+                <th className="col-time">Time</th>
+                <th className="col-status">Status</th>
+                <th className="col-actions">Actions</th>
               </tr>
             </thead>
             <tbody>
               {appointments.map((appt, index) => (
-                <tr key={appt.id}>
-                  <td>{index + 1}</td>
+                <Fragment key={appt.id}>
+                  <tr className={appt.ai_summary ? 'appointment-row has-ai-summary' : 'appointment-row'}>
+                    <td className="col-num">{index + 1}</td>
 
-                  {/* Patient + optional AI Summary card */}
-                  <td>
-                    <span className="patient-name">{appt.patient_name}</span>
-                    {appt.ai_summary && (
-                      <div className="ai-summary-card">
-                        <span className="ai-summary-label">✦ AI Summary</span>
-                        <p className="ai-summary-text">{appt.ai_summary}</p>
-                      </div>
-                    )}
-                  </td>
+                    {/* Patient Name only — keeping cell compact and standard height */}
+                    <td className="col-patient">
+                      <span className="patient-name">{appt.patient_name}</span>
+                    </td>
 
-                  <td>{appt.mobile_number}</td>
-                  <td>{appt.doctor_name}</td>
-                  <td>{fmtDate(appt.appointment_date)}</td>
-                  <td>{fmtTime(appt.appointment_time)}</td>
+                    <td className="col-mobile">{appt.mobile_number}</td>
+                    <td className="col-doctor">{appt.doctor_name}</td>
+                    <td className="col-date">{fmtDate(appt.appointment_date)}</td>
+                    <td className="col-time">{fmtTime(appt.appointment_time)}</td>
 
-                  <td>
-                    <StatusBadge status={appt.status} />
-                  </td>
+                    <td className="col-status">
+                      <StatusBadge status={appt.status} />
+                    </td>
 
-                  {/* Action buttons */}
-                  <td>
-                    <div className="actions-cell">
-                      <button
-                        className="btn btn-sm btn-success"
-                        onClick={() => onStatusChange(appt.id, 'Completed')}
-                        disabled={appt.status !== 'Pending'}
-                        title={
-                          appt.status !== 'Pending'
-                            ? `Already ${appt.status}`
-                            : 'Mark as Completed'
-                        }
-                      >
-                        ✓ Complete
-                      </button>
-
-                      <button
-                        className="btn btn-sm btn-warning"
-                        onClick={() => onStatusChange(appt.id, 'Cancelled')}
-                        disabled={appt.status !== 'Pending'}
-                        title={
-                          appt.status !== 'Pending'
-                            ? `Already ${appt.status}`
-                            : 'Cancel Appointment'
-                        }
-                      >
-                        ✕ Cancel
-                      </button>
-
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              `Delete appointment for ${appt.patient_name}? This cannot be undone.`
-                            )
-                          ) {
-                            onDelete(appt.id);
+                    {/* Action buttons */}
+                    <td className="col-actions">
+                      <div className="actions-cell">
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-success"
+                          onClick={() => onStatusChange(appt.id, 'Completed')}
+                          disabled={appt.status !== 'Pending'}
+                          title={
+                            appt.status !== 'Pending'
+                              ? `Already ${appt.status}`
+                              : 'Mark as Completed'
                           }
-                        }}
-                        title="Delete Appointment"
-                      >
-                        🗑 Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                        >
+                          ✓ Complete
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-warning"
+                          onClick={() => onStatusChange(appt.id, 'Cancelled')}
+                          disabled={appt.status !== 'Pending'}
+                          title={
+                            appt.status !== 'Pending'
+                              ? `Already ${appt.status}`
+                              : 'Cancel Appointment'
+                          }
+                        >
+                          ✕ Cancel
+                        </button>
+
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-danger"
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                `Delete appointment for ${appt.patient_name}? This cannot be undone.`
+                              )
+                            ) {
+                              onDelete(appt.id);
+                            }
+                          }}
+                          title="Delete Appointment"
+                        >
+                          🗑 Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  {/* AI Summary Sub-Row: Spans all 8 columns so it never stretches patient column */}
+                  {appt.ai_summary && (
+                    <tr className="ai-summary-row">
+                      <td colSpan={8}>
+                        <div className="ai-summary-box">
+                          <span className="ai-summary-label">
+                            <span className="ai-sparkle">✦</span> AI Summary:
+                          </span>
+                          <span className="ai-summary-text">{appt.ai_summary}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               ))}
             </tbody>
           </table>

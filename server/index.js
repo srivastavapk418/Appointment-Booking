@@ -11,9 +11,9 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type"],
+    origin: "*",
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
 app.use(express.json());
@@ -24,6 +24,18 @@ app.use("/api/appointments", appointmentsRouter);
 // Health check
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+// Root endpoint for Vercel deployment verification
+app.get("/", (_req, res) => {
+  res.json({
+    status: "ok",
+    message: "Appointment Booking API is live",
+    endpoints: {
+      health: "/health",
+      appointments: "/api/appointments",
+    },
+  });
 });
 
 // 404 handler
@@ -38,5 +50,12 @@ app.use((err, _req, res, _next) => {
     .status(err.status || 500)
     .json({ error: err.message || "Internal server error" });
 });
+
+// Start listening when running standalone/locally (Vercel uses exported app)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
 
 export default app;

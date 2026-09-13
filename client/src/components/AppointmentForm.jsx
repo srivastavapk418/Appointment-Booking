@@ -132,7 +132,10 @@ export default function AppointmentForm({ onSubmit }) {
 
   return (
     <div className="card">
-      <h2 className="card-title">📝 Book New Appointment</h2>
+      <div className="card-header">
+        <h2 className="card-title">Book New Appointment</h2>
+        <p className="card-subtitle">Fill in the details below to schedule a patient consultation</p>
+      </div>
 
       {submitError && (
         <div className="alert-error" role="alert">

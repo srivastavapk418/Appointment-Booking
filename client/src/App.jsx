@@ -68,8 +68,13 @@ export default function App() {
     <>
       {/* Header */}
       <header className="app-header">
-        <h1>📅 Appointment Booking</h1>
-        <p>Schedule and manage patient appointments</p>
+        <div className="header-container">
+          <span className="header-icon">🏥</span>
+          <div>
+            <h1>Appointment Booking System</h1>
+            <p>Schedule, track, and manage patient appointments</p>
+          </div>
+        </div>
       </header>
 
       <main className="app-main">

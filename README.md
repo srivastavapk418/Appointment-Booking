@@ -4,12 +4,12 @@ A full-stack appointment booking application built with React, Node.js/Express, 
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | React 18 + Vite |
-| Backend | Node.js + Express |
-| Database | Supabase (PostgreSQL) |
-| AI Feature | xAI Grok API |
+| Layer      | Technology            |
+| ---------- | --------------------- |
+| Frontend   | React 18 + Vite       |
+| Backend    | Node.js + Express     |
+| Database   | Supabase (PostgreSQL) |
+| AI Feature | Grok API              |
 
 ## Features
 
@@ -110,16 +110,17 @@ appointment-app/
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/appointments` | Fetch all appointments |
-| POST | `/api/appointments` | Create new appointment |
-| PATCH | `/api/appointments/:id/status` | Update status |
-| DELETE | `/api/appointments/:id` | Delete appointment |
+| Method | Endpoint                       | Description            |
+| ------ | ------------------------------ | ---------------------- |
+| GET    | `/api/appointments`            | Fetch all appointments |
+| POST   | `/api/appointments`            | Create new appointment |
+| PATCH  | `/api/appointments/:id/status` | Update status          |
+| DELETE | `/api/appointments/:id`        | Delete appointment     |
 
 ## Environment Variables
 
 ### Server (`server/.env`)
+
 ```
 SUPABASE_URL=...
 SUPABASE_SERVICE_KEY=...
@@ -129,6 +130,7 @@ CLIENT_URL=http://localhost:5173
 ```
 
 ### Client (`client/.env`)
+
 ```
 VITE_API_URL=http://localhost:3001
 ```

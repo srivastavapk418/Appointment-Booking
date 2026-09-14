@@ -1,41 +1,38 @@
-/**
- * Validates the body of a POST /api/appointments request.
- * Returns 400 with an errors array if validation fails.
- */
 export function validateAppointment(req, res, next) {
-  const { patient_name, mobile_number, doctor_name, appointment_date, appointment_time } = req.body;
+  const {
+    patient_name,
+    mobile_number,
+    doctor_name,
+    appointment_date,
+    appointment_time,
+  } = req.body;
   const errors = [];
 
-  // Patient name
   if (!patient_name || !patient_name.trim()) {
-    errors.push('Patient name is required');
+    errors.push("Patient name is required");
   } else if (patient_name.trim().length < 2) {
-    errors.push('Patient name must be at least 2 characters');
+    errors.push("Patient name must be at least 2 characters");
   }
 
-  // Mobile number — exactly 10 digits
-  const mobile = (mobile_number || '').replace(/\s/g, '');
+  const mobile = (mobile_number || "").replace(/\s/g, "");
   if (!mobile) {
-    errors.push('Mobile number is required');
+    errors.push("Mobile number is required");
   } else if (!/^[0-9]{10}$/.test(mobile)) {
-    errors.push('Mobile number must be exactly 10 digits');
+    errors.push("Mobile number must be exactly 10 digits");
   }
 
-  // Doctor name
   if (!doctor_name || !doctor_name.trim()) {
-    errors.push('Doctor name is required');
+    errors.push("Doctor name is required");
   } else if (doctor_name.trim().length < 2) {
-    errors.push('Doctor name must be at least 2 characters');
+    errors.push("Doctor name must be at least 2 characters");
   }
 
-  // Appointment date
   if (!appointment_date) {
-    errors.push('Appointment date is required');
+    errors.push("Appointment date is required");
   }
 
-  // Appointment time
   if (!appointment_time) {
-    errors.push('Appointment time is required');
+    errors.push("Appointment time is required");
   }
 
   if (errors.length > 0) {

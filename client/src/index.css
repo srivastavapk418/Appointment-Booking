@@ -1,6 +1,3 @@
-/* ============================================================
-   Appointment Booking App — Clean & Professional Stylesheet
-   ============================================================ */
 
 :root {
   --primary:        #2563eb;
@@ -42,7 +39,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Header ─────────────────────────────────────────────── */
 
 .app-header {
   background: #1e3a8a;
@@ -83,7 +79,6 @@ body {
   color: #bfdbfe;
 }
 
-/* ── Main Layout ─────────────────────────────────────────── */
 
 .app-main {
   max-width: 1200px;
@@ -91,7 +86,6 @@ body {
   padding: 0 1.25rem;
 }
 
-/* ── Stats Bar ───────────────────────────────────────────── */
 
 .stats-bar {
   display: grid;
@@ -136,7 +130,6 @@ body {
 .stat-card.completed .stat-value { color: var(--success); }
 .stat-card.cancelled .stat-value { color: var(--danger); }
 
-/* ── Card Containers ─────────────────────────────────────── */
 
 .card {
   background: var(--card-bg);
@@ -187,7 +180,6 @@ body {
   min-width: 22px;
 }
 
-/* ── Form ────────────────────────────────────────────────── */
 
 .form-grid {
   display: grid;
@@ -279,7 +271,6 @@ body {
   padding-top: 0.5rem;
 }
 
-/* ── Alert Banner ────────────────────────────────────────── */
 
 .alert-error {
   background: var(--danger-bg);
@@ -292,7 +283,6 @@ body {
   font-size: 0.875rem;
 }
 
-/* ── Buttons ─────────────────────────────────────────────── */
 
 .btn {
   display: inline-flex;
@@ -368,7 +358,6 @@ body {
   color: #991b1b;
 }
 
-/* ── Spinner ─────────────────────────────────────────────── */
 
 .spinner {
   display: inline-block;
@@ -384,7 +373,6 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* ── Table ───────────────────────────────────────────────── */
 
 .table-wrapper {
   overflow-x: auto;
@@ -420,7 +408,6 @@ tbody td {
   vertical-align: middle;
 }
 
-/* Column styles */
 .col-num {
   width: 40px;
   color: #94a3b8;
@@ -461,17 +448,14 @@ tbody td {
   white-space: nowrap;
 }
 
-/* Row Hover */
 tr.appointment-row:hover td {
   background-color: #f8fafc;
 }
 
-/* When a row has an AI summary attached below it */
 tr.appointment-row.has-ai-summary td {
   border-bottom: 1px dashed #e2e8f0;
 }
 
-/* ── AI Summary Sub-Row (Spans All Columns) ──────────────── */
 
 tr.ai-summary-row td {
   padding: 0.35rem 1rem 0.85rem 1rem;
@@ -517,7 +501,6 @@ tr.ai-summary-row td {
   font-size: 0.85rem;
 }
 
-/* ── Actions Cell ────────────────────────────────────────── */
 
 .actions-cell {
   display: flex;
@@ -526,7 +509,6 @@ tr.ai-summary-row td {
   white-space: nowrap;
 }
 
-/* ── Status Badges ───────────────────────────────────────── */
 
 .badge {
   display: inline-flex;
@@ -557,7 +539,6 @@ tr.ai-summary-row td {
   border-color: var(--danger-border);
 }
 
-/* ── Empty & Loading States ──────────────────────────────── */
 
 .empty-state {
   text-align: center;
@@ -581,7 +562,6 @@ tr.ai-summary-row td {
   font-size: 0.925rem;
 }
 
-/* ── Toast Notifications ─────────────────────────────────── */
 
 .toast-container {
   position: fixed;
@@ -632,7 +612,6 @@ tr.ai-summary-row td {
   to   { transform: translateY(0); opacity: 1; }
 }
 
-/* ── Responsive Design ───────────────────────────────────── */
 
 @media (max-width: 768px) {
   .app-header {

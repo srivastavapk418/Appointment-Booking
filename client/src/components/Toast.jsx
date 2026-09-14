@@ -1,7 +1,3 @@
-/**
- * Toast notification component.
- * Renders a fixed stack of dismissable toasts in the top-right corner.
- */
 export default function Toast({ toasts }) {
   if (toasts.length === 0) return null;
 

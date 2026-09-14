@@ -1,14 +1,10 @@
-/**
- * setup-db-via-rpc.js — Creates the appointments table via Supabase REST.
- * Uses the supabase-js client to call a raw query through the REST layer.
- */
-import { createClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
+import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
 dotenv.config();
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
+  process.env.SUPABASE_SERVICE_KEY,
 );
 
 const statements = [
@@ -31,23 +27,19 @@ const statements = [
 
 async function run() {
   for (const stmt of statements) {
-    // Execute each SQL statement via the supabase REST SQL endpoint
-    const resp = await fetch(
-      `${process.env.SUPABASE_URL}/rest/v1/sql`,
-      {
-        method: 'POST',
-        headers: {
-          apikey: process.env.SUPABASE_SERVICE_KEY,
-          Authorization: `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal',
-        },
-        body: JSON.stringify({ query: stmt }),
-      }
-    );
+    const resp = await fetch(`${process.env.SUPABASE_URL}/rest/v1/sql`, {
+      method: "POST",
+      headers: {
+        apikey: process.env.SUPABASE_SERVICE_KEY,
+        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_KEY}`,
+        "Content-Type": "application/json",
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify({ query: stmt }),
+    });
 
     const text = await resp.text();
-    console.log(resp.status, stmt.slice(0, 40).trim(), '->', text || 'OK');
+    console.log(resp.status, stmt.slice(0, 40).trim(), "->", text || "OK");
   }
 }
 

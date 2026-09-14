@@ -1,17 +1,15 @@
-import { useState, useCallback } from 'react';
-import AppointmentForm from './components/AppointmentForm';
-import AppointmentTable from './components/AppointmentTable';
-import Toast from './components/Toast';
-import useAppointments from './hooks/useAppointments';
+import { useState, useCallback } from "react";
+import AppointmentForm from "./components/AppointmentForm";
+import AppointmentTable from "./components/AppointmentTable";
+import Toast from "./components/Toast";
+import useAppointments from "./hooks/useAppointments";
 
-// ── Toast helpers ─────────────────────────────────────────────────────────────
-
-const TOAST_DURATION = 4000; // ms
+const TOAST_DURATION = 4000;
 
 function useToasts() {
   const [toasts, setToasts] = useState([]);
 
-  const addToast = useCallback((message, type = 'success') => {
+  const addToast = useCallback((message, type = "success") => {
     const id = Date.now();
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
@@ -22,51 +20,48 @@ function useToasts() {
   return { toasts, addToast };
 }
 
-// ── App ───────────────────────────────────────────────────────────────────────
-
 export default function App() {
-  const { appointments, loading, error, addAppointment, changeStatus, removeAppointment } =
-    useAppointments();
+  const {
+    appointments,
+    loading,
+    error,
+    addAppointment,
+    changeStatus,
+    removeAppointment,
+  } = useAppointments();
 
   const { toasts, addToast } = useToasts();
 
-  // Stats derived from appointment list
-  const total     = appointments.length;
-  const pending   = appointments.filter((a) => a.status === 'Pending').length;
-  const completed = appointments.filter((a) => a.status === 'Completed').length;
-  const cancelled = appointments.filter((a) => a.status === 'Cancelled').length;
-
-  // ── Handlers ───────────────────────────────────────────────────────────────
+  const total = appointments.length;
+  const pending = appointments.filter((a) => a.status === "Pending").length;
+  const completed = appointments.filter((a) => a.status === "Completed").length;
+  const cancelled = appointments.filter((a) => a.status === "Cancelled").length;
 
   const handleSubmit = async (formData) => {
-    // Throws on error — AppointmentForm will catch and display it
     await addAppointment(formData);
-    addToast('Appointment booked successfully!', 'success');
+    addToast("Appointment booked successfully!", "success");
   };
 
   const handleStatusChange = async (id, status) => {
     try {
       await changeStatus(id, status);
-      addToast(`Appointment marked as ${status}`, 'success');
+      addToast(`Appointment marked as ${status}`, "success");
     } catch {
-      addToast('Failed to update status. Please try again.', 'error');
+      addToast("Failed to update status. Please try again.", "error");
     }
   };
 
   const handleDelete = async (id) => {
     try {
       await removeAppointment(id);
-      addToast('Appointment deleted', 'success');
+      addToast("Appointment deleted", "success");
     } catch {
-      addToast('Failed to delete appointment. Please try again.', 'error');
+      addToast("Failed to delete appointment. Please try again.", "error");
     }
   };
 
-  // ── Render ─────────────────────────────────────────────────────────────────
-
   return (
     <>
-      {/* Header */}
       <header className="app-header">
         <div className="header-container">
           <span className="header-icon">🏥</span>
@@ -78,14 +73,16 @@ export default function App() {
       </header>
 
       <main className="app-main">
-        {/* Connection error banner */}
         {error && (
-          <div className="alert-error" role="alert" style={{ marginBottom: '1.25rem' }}>
+          <div
+            className="alert-error"
+            role="alert"
+            style={{ marginBottom: "1.25rem" }}
+          >
             ⚠ Could not connect to the server: {error}
           </div>
         )}
 
-        {/* Stats */}
         <div className="stats-bar">
           <div className="stat-card total">
             <span className="stat-label">Total</span>
@@ -105,10 +102,8 @@ export default function App() {
           </div>
         </div>
 
-        {/* Booking form */}
         <AppointmentForm onSubmit={handleSubmit} />
 
-        {/* Appointments list */}
         <AppointmentTable
           appointments={appointments}
           loading={loading}
@@ -117,7 +112,6 @@ export default function App() {
         />
       </main>
 
-      {/* Toast notifications */}
       <Toast toasts={toasts} />
     </>
   );

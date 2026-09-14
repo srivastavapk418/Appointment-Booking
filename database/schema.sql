@@ -1,7 +1,3 @@
--- ============================================================
--- Appointment Booking App — Database Schema
--- Run this in your Supabase SQL Editor
--- ============================================================
 
 CREATE TABLE IF NOT EXISTS appointments (
   id               UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -17,10 +13,8 @@ CREATE TABLE IF NOT EXISTS appointments (
   created_at       TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index for faster status queries
 CREATE INDEX IF NOT EXISTS idx_appointments_status
   ON appointments (status);
 
--- Index for faster date ordering
 CREATE INDEX IF NOT EXISTS idx_appointments_date
   ON appointments (appointment_date, appointment_time);
